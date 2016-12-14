@@ -1,0 +1,27 @@
+{
+  "name": "pi-photo-backup",
+  "version": "1.0.0",
+  "description": "Application to backup photos from an SD card to an external hard drive",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SwannMR/piPhotoBackup.git"
+  },
+  "author": "Michael Swann <swannmr@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SwannMR/piPhotoBackup/issues"
+  },
+  "homepage": "https://github.com/SwannMR/piPhotoBackup#readme",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "http": "0.0.0",
+    "rsync": "^0.5.0",
+    "socket.io": "^1.7.1"
+  }
+}

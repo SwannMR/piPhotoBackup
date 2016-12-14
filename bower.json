@@ -1,0 +1,20 @@
+{
+  "name": "pi-photo-backup",
+  "description": "Application to backup photos from an SD card to an external hard drive",
+  "main": "index.js",
+  "authors": [
+    "Michael Swann <swannmr@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/SwannMR/piPhotoBackup",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
