@@ -1,20 +1,27 @@
+'use strict';
+
 module.exports = function(app)
 
 {
   const Rsync =  require('rsync');
-  const fs = require('fs');
 
   app.get('/', (req, res) => {
-    data = {}
-    const folder = '/home/michael/Work/nodejs/piPhotoBackup/test';
-    fs.readdir(folder, (err, files) => {
-      console.log(files.length);
-      data.filecount = files.length;
-    });
-    res.render('index', {rsync: data});
+    let data = {}
+    const folder = '/mnt/external-1';
+    linuxCommand('find /mnt/external-1/ -type f | wc -l')
+      .then(stdout => {
+         console.log(stdout);
+         data.filecount = stdout;
+         return res.render('index', {rsync: data});
+      })
+      .catch(err => {
+        console.log(err)
+        data.filecount = 'error';
+        return res.render('index', {rsync: data});
+      })
   })
 
-  app.post('/', (req, res) => {
+  app.post('/sync', (req, res) => {
     console.log(req.body);
     let source = req.body.source;
     let destination = req.body.destination;
@@ -35,20 +42,23 @@ module.exports = function(app)
 
   app.post('/shutdown', (req, res) => {
     console.log('shutting down');
-    linuxCommand('ls -l')
+    linuxCommand('sudo halt')
     res.redirect('/');
   })
 }
 
+const Promise = require('promise')
 const exec = require('child_process').exec;
 
 function linuxCommand(cmd) {
-  exec(cmd, (error, stdout, stderr) => {
-    if(error) {
-      console.log(`exec error ${error}`);
-      return;
-    }
-    console.log(stdout);
-    return stdout;
+  return new Promise((resolve, reject) => {
+
+    exec(cmd, (error, stdout, stderr) => {
+      if(error) {
+        console.log(`exec error ${error}`);
+        return reject('error');
+      }
+      return resolve(stdout);
+    });
   });
 }
