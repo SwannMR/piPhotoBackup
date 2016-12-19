@@ -5,13 +5,34 @@
   <script src="bower_components/jquery/dist/jquery.js"></script>
   <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="stylesheets/main.css"/>
   <meta charset="utf-8">
   <title>Pi Backup</title>
 </head>
+<div class="container">
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+       <ul class="nav navbar-nav">
+         <li><button type="button" class="btn btn-danger navbar-btn" id="shutdown-btn">Shutdown</button></li>
+       </ul>
+    </div>
+  </nav>
+</div>
 <body>
-
   {{{body}}}
-
 </body>
 
 </html>
+
+<script type="text/javascript">
+$("#shutdown-btn").click(function() {
+  console.log('Shutting down the pi.');
+  $.ajax({
+    type: "POST",
+    url: "/shutdown",
+    success: function (res) {
+      window.location.href = '/';
+    }
+  });
+});
+</script>

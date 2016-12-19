@@ -2,9 +2,16 @@ module.exports = function(app)
 
 {
   const Rsync =  require('rsync');
+  const fs = require('fs');
 
   app.get('/', (req, res) => {
-    res.render('index');
+    data = {}
+    const folder = '/home/michael/Work/nodejs/piPhotoBackup/test';
+    fs.readdir(folder, (err, files) => {
+      console.log(files.length);
+      data.filecount = files.length;
+    });
+    res.render('index', {rsync: data});
   })
 
   app.post('/', (req, res) => {
@@ -26,4 +33,22 @@ module.exports = function(app)
     res.redirect('/');
   })
 
+  app.post('/shutdown', (req, res) => {
+    console.log('shutting down');
+    linuxCommand('ls -l')
+    res.redirect('/');
+  })
+}
+
+const exec = require('child_process').exec;
+
+function linuxCommand(cmd) {
+  exec(cmd, (error, stdout, stderr) => {
+    if(error) {
+      console.log(`exec error ${error}`);
+      return;
+    }
+    console.log(stdout);
+    return stdout;
+  });
 }
